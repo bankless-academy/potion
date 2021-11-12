@@ -44,15 +44,10 @@ module.exports = async (req, res) => {
     collectionId,
     collectionViewId,
     query: {},
-    loader: {
-      type: 'table',
-      limit: 99999,
-      userTimeZone: 'UTC',
-      loadContentCover: true
-    }
+    loader: { "type": "reducer", "reducers": { "collection_group_results": { "type": "results", "limit": 99999 } }, "userTimeZone": "UTC" }
   })
 
-  const subPages = tableData.result.blockIds
+  const subPages = tableData.result.reducerResults.collection_group_results.blockIds
 
   const schema = tableData.recordMap.collection[collectionId].value.schema
 
