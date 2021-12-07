@@ -95,8 +95,9 @@ module.exports = async (req, res) => {
         // This is an empty text block.
         return
       }
-
-      html.push(`<${el}>${textArrayToHtml(block.properties.title)}</${el}>`)
+      // console.log(block)
+      const notionId=["header"].includes(type) ? ` notion-id="${block.id}"` : '';
+      html.push(`<${el}${notionId}>${textArrayToHtml(block.properties.title)}</${el}>`)
     } else if(["numbered_list", "bulleted_list"].includes(type)) {
       /* Numbered and bulleted lists */
       const el = {
@@ -140,6 +141,7 @@ module.exports = async (req, res) => {
     } else if(["divider"].includes(type)) {
       html.push(`<hr>`)
     } else if(["image"].includes(type)) {
+      // console.log('img', block)
       html.push(`<img src="https://www.notion.so/image/${encodeURIComponent(block.format.display_source)}?table=block&id=${block.id}">`)
     } else if(["equation"].includes(type)) {
       if(!block.properties) {
@@ -150,12 +152,15 @@ module.exports = async (req, res) => {
       const equationHtml = katex.renderToString(equation, { throwOnError: false })
       html.push(`<div class="equation">${equationHtml}</div>`)
     } else if(["embed"].includes(type)) {
+      // console.log('embed', block)
       html.push(`<iframe src="${block.properties.source[0][0]}"></iframe>`)
     } else if(["video"].includes(type)) {
+      // video + lottie animations
+      // console.log('video', block)
       html.push(`<iframe src="${block.format.display_source}"></iframe>`)
     } else {
       /* Catch blocks without handler method */
-      console.log(`Unhandled block type "${block.type}"`, block)
+      // console.log(`Unhandled block type "${block.type}"`, block)
     }
   })
 
