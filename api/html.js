@@ -96,7 +96,7 @@ module.exports = async (req, res) => {
         return
       }
       // console.log(block)
-      const notionId=["header"].includes(type) ? ` notion-id="${block.id}"` : '';
+      const notionId=["header"].includes(type) ? ` notion-id="${block.id.replace(/-/g, '')}"` : '';
       html.push(`<${el}${notionId}>${textArrayToHtml(block.properties.title)}</${el}>`)
     } else if(["numbered_list", "bulleted_list"].includes(type)) {
       /* Numbered and bulleted lists */
