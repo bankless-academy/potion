@@ -108,7 +108,7 @@ module.exports = async (req, res) => {
       html.push(`<${el}><li>${textArrayToHtml(block.properties && block.properties.title)}</li></${el}>`)
     } else if(["to_do"].includes(type)) {
       /* To do list represented by a list of checkbox inputs */
-      const checked = Boolean(block.properties.checked)
+      const checked = Boolean(block.properties.checked?.toString()==="Yes")
       html.push(`<div class="checklist"><label><input type="checkbox" disabled${checked ? " checked" : ""}>${textArrayToHtml(block.properties.title)}</label></div>`)
     } else if(["code"].includes(type)) {
       /* Full code blocks with language */
