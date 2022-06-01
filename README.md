@@ -77,7 +77,7 @@ Most, but not all, of the common Notion blocks are supported at the moment:
 - [x] Quote
 - [x] Divider
 - [ ] Link to Page
-- [x] Callout
+- [x] Callout (supported but deactivated)
 - [x] Image
 - [x] Embed
 - [ ] Web Bookmark
@@ -93,3 +93,8 @@ Most, but not all, of the common Notion blocks are supported at the moment:
 This project is built to be deployed on [Vercel](https://vercel.com/home).
 
 For local development, install [Vercel's CLI](https://vercel.com/download) and run `vercel dev`.
+
+```
+yarn install
+vercel dev
+```
