@@ -21,47 +21,59 @@ module.exports = async (req, res) => {
     })
   }
 
-  const response = await notion.databases.query({
-    database_id: id,
-    sorts: [
-      {
-        property: 'Order',
-        direction: 'ascending',
-      },
-    ],
-  })
+  let response = {}
+
+  try {
+    response = await notion.databases.query({
+      database_id: id,
+      sorts: [
+        {
+          property: 'Order',
+          direction: 'ascending',
+        },
+      ],
+    })
+  } catch (error) {
+    try {
+      response = await notion.databases.query({
+        database_id: id,
+      })
+    } catch (error) {
+      return res.json(error)
+    }
+  }
 
   response.results.map((row) => {
-    row.fields={}
+    row.fields = {}
     for (const [k, v] of Object.entries(row.properties)) {
       // console.log(`${k}: ${v}`);
       if (v.type === 'title') {
         // console.log(`${k}:${v.title[0]?.plain_text}`)
-        row.fields[k]=v.title[0]?.plain_text || undefined
+        row.fields[k] = v.title[0]?.plain_text || undefined
       }
       if (v.type === 'rich_text') {
         // console.log(`${k}:${v.rich_text[0]?.plain_text}`)
-        row.fields[k]=v.rich_text[0]?.plain_text
+        row.fields[k] = v.rich_text[0]?.plain_text
       }
       if (v.type === 'number') {
         // console.log(`${k}:${v.number}`)
-        row.fields[k]=v.number
+        row.fields[k] = v.number
       }
       if (v.type === 'checkbox') {
         // console.log(`${k}:${v.checkbox}`)
-        row.fields[k]=v.checkbox
+        row.fields[k] = v.checkbox
       }
       if (v.type === 'url') {
         // console.log(`${k}:${v.url}`)
-        row.fields[k]=v.url
+        row.fields[k] = v.url
       }
       if (v.type === 'select') {
         // console.log(`${k}:${v.select?.name}`)
-        row.fields[k]=v.select?.name
+        row.fields[k] = v.select?.name
       }
       if (v.type === 'files') {
         // console.log(`${k}:${v.select?.name}`)
-        row.fields[k]=v.files[0]?.external?.url || v.files[0]?.file?.url
+        row.fields[k] = v.files[0]?.external?.url || v.files[0]?.file?.url
       }
     }
     // DEV_MODE: comment for debug
