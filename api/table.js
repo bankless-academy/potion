@@ -59,7 +59,13 @@ module.exports = async (req, res) => {
         // console.log(`${k}:${v.select?.name}`)
         row.fields[k]=v.select?.name
       }
+      if (v.type === 'files') {
+        // console.log(`${k}:${v.select?.name}`)
+        row.fields[k]=v.files[0]?.external?.url || v.files[0]?.file?.url
+      }
     }
+    // DEV_MODE: comment for debug
+    delete row.properties
   })
 
   const output = response.results
