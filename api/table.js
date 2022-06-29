@@ -12,7 +12,7 @@ const notion = new Client({
 })
 
 module.exports = async (req, res) => {
-  const { id: queryId } = req.query
+  const { id: queryId, sort } = req.query
   const id = normalizeId(queryId)
 
   if (!id) {
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       database_id: id,
       sorts: [
         {
-          property: 'Order',
+          property: sort || 'Order',
           direction: 'ascending',
         },
       ],
