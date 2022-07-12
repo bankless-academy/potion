@@ -97,7 +97,7 @@ module.exports = async (req, res) => {
       }
       // console.log(block)
       const notionId=["header"].includes(type) ? ` notion-id="${block.id.replace(/-/g, '')}"` : '';
-      html.push(`<${el}${notionId}>${textArrayToHtml(block.properties.title)}</${el}>`)
+      html.push(`<${el}${notionId}>${textArrayToHtml(block.properties?.title)}</${el}>`)
     } else if(["numbered_list", "bulleted_list"].includes(type)) {
       /* Numbered and bulleted lists */
       const el = {
@@ -105,15 +105,15 @@ module.exports = async (req, res) => {
         "bulleted_list": "ul"
       }[type]
 
-      html.push(`<${el}><li>${textArrayToHtml(block.properties && block.properties.title)}</li></${el}>`)
+      html.push(`<${el}><li>${textArrayToHtml(block.properties && block.properties?.title)}</li></${el}>`)
     } else if(["to_do"].includes(type)) {
       /* To do list represented by a list of checkbox inputs */
-      const checked = Boolean(block.properties.checked?.toString()==="Yes")
-      html.push(`<div class="checklist"><label><input type="checkbox" disabled${checked ? " checked" : ""}>${textArrayToHtml(block.properties.title)}</label></div>`)
+      const checked = Boolean(block.properties?.checked?.toString()==="Yes")
+      html.push(`<div class="checklist"><label><input type="checkbox" disabled${checked ? " checked" : ""}>${textArrayToHtml(block.properties?.title)}</label></div>`)
     } else if(["code"].includes(type)) {
       /* Full code blocks with language */
-      const language = block.properties.language[0][0].toLowerCase().replace(/ /g, "")
-      const text = block.properties.title || [[""]]
+      const language = block.properties?.language[0][0].toLowerCase().replace(/ /g, "")
+      const text = block.properties?.title || [[""]]
 
       // Inject unescaped HTML if code block's language is set to LiveScript
       const showLive = language === "livescript"
@@ -134,11 +134,11 @@ module.exports = async (req, res) => {
       const imageLink = icon.startsWith("http") ? `https://www.notion.so/image/${encodeURIComponent(icon)}?table=block&id=${block.id}` : `https://emojicdn.elk.sh/${icon}`
       const color = block.format.block_color.split("_")[0]
       const isBackground = block.format.block_color.split("_").length > 1
-      const text = block.properties.title
+      const text = block.properties?.title
       // custom: don't export callout
       // html.push(`<div class="callout${isBackground ? " background" : " color"}-${color}"><img src="${imageLink}"><p>${textArrayToHtml(text)}</p></div>`)
     } else if(["quote"].includes(type)) {
-      html.push(`<blockquote>${textArrayToHtml(block.properties.title)}</blockquote>`)
+      html.push(`<blockquote>${textArrayToHtml(block.properties?.title)}</blockquote>`)
     } else if(["divider"].includes(type)) {
       html.push(`<hr>`)
     } else if(["image"].includes(type)) {
@@ -149,12 +149,12 @@ module.exports = async (req, res) => {
         // Equation block is empty
         return
       }
-      const equation = block.properties.title[0][0]
+      const equation = block.properties?.title[0][0]
       const equationHtml = katex.renderToString(equation, { throwOnError: false })
       html.push(`<div class="equation">${equationHtml}</div>`)
     } else if(["embed"].includes(type)) {
       // console.log('embed', block)
-      html.push(`<iframe src="${block.properties.source[0][0]}"></iframe>`)
+      html.push(`<iframe src="${block.properties?.source[0][0]}"></iframe>`)
     } else if(["video"].includes(type)) {
       // video + lottie animations
       // console.log('video', block)
