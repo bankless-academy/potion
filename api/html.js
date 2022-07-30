@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
   if(!contentIds) {
     // BA custom: return page title if page content is empty
     const [[title]] = overview.recordMap.block[id].value?.properties?.title
-    console.log('title', title)
+    // console.log('title:', title)
     if (title)
       return res.send(title)
     else

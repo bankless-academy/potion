@@ -77,10 +77,10 @@ module.exports = async (req, res) => {
         row.fields[k] = v.files[0]?.external?.url || v.files[0]?.file?.url
       }
       if (v.type === 'relation') {
-        console.log(`${k}:`)
+        // console.log(`${k}:`)
         // console.log(v)
         // pageID relation
-        row.fields[k] = v?.relation[0]?.id
+        row.fields[k] = v?.relation[0]?.id?.replace(/-/g, '')
         // console.log(row.fields[k])
       }
     }
