@@ -47,6 +47,7 @@ module.exports = async (req, res) => {
     row.fields = {}
     for (const [k, v] of Object.entries(row.properties)) {
       // console.log(`${k}: ${v}`);
+      // console.log(v)
       if (v.type === 'title') {
         // console.log(`${k}:${v.title[0]?.plain_text}`)
         row.fields[k] = v.title[0]?.plain_text || undefined
@@ -74,6 +75,13 @@ module.exports = async (req, res) => {
       if (v.type === 'files') {
         // console.log(`${k}:${v.select?.name}`)
         row.fields[k] = v.files[0]?.external?.url || v.files[0]?.file?.url
+      }
+      if (v.type === 'relation') {
+        console.log(`${k}:`)
+        // console.log(v)
+        // pageID relation
+        row.fields[k] = v?.relation[0]?.id
+        // console.log(row.fields[k])
       }
     }
     // DEV_MODE: comment for debug
