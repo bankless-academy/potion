@@ -79,8 +79,8 @@ module.exports = async (req, res) => {
       if (v.type === 'relation') {
         // console.log(`${k}:`)
         // console.log(v)
-        // pageID relation
-        row.fields[k] = v?.relation[0]?.id?.replace(/-/g, '')
+        // return array of pageIDs
+        row.fields[k] = v?.relation.map((r) => r.id.replace(/-/g, ''))
         // console.log(row.fields[k])
       }
     }
