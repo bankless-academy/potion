@@ -112,22 +112,23 @@ module.exports = async (req, res) => {
         "bulleted_list": "ul"
       }[type]
 
-      html.push(`<${el}><li>${textArrayToHtml(block.properties && block.properties?.title)}</li></${el}>`)
       // add support for second level of lists
+      let subList = ''
       if (block.content) {
         // HACK: add space to avoid replace hack (bottom of the file)
-        html.push(` <ul>`)
+        subList+=` <ul>`
         for (const subListID of block.content) {
           const subBlock = recordMap[subListID].value
           // console.log('subBlock', subBlock)
-          const type = subBlock.type
-          if (["numbered_list", "bulleted_list"].includes(type)) {
+          if (["numbered_list", "bulleted_list"].includes(subBlock.type)) {
             // console.log('v', subBlock.properties?.title)
-            html.push(`<li>${textArrayToHtml(subBlock.properties && subBlock.properties?.title)}</li>`)
+            subList+=`<li>${textArrayToHtml(subBlock.properties && subBlock.properties?.title)}</li>`
           }
         }
-        html.push(`</ul> `)
+        subList+=`</ul> `
       }
+
+      html.push(`<${el}><li>${textArrayToHtml(block.properties && block.properties?.title)}</li>${subList}</${el}>`)
     } else if(["to_do"].includes(type)) {
       /* To do list represented by a list of checkbox inputs */
       const checked = Boolean(block.properties?.checked?.toString()==="Yes")
