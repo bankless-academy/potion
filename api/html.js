@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
   const parent_id = overview.recordMap.block[id]?.value?.parent_id?.replace(/-/g, '')
   console.log('parent_id', parent_id)
   if (!parent_id || !WHITELIST.includes(parent_id))
-    return res.json({ error: 'forbidden, add to WHITELIST first' })
+    return res.json({ error: `forbidden, add ${parent_id} to WHITELIST first` })
 
   if(!overview.recordMap?.block[id].value) {
     return res.json({

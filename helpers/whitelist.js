@@ -4,12 +4,14 @@ module.exports = [
   /* Bankless Academy */
   // lessons
   '1dd77eb6ed4147f6bdfd6f23a30baa46',
+  '6287acfe1e284bfb83e9dbaee1747a50',
   // keywords
   '623e965e4f10456094d17aa94ec37105',
 
   /* humanDAO Academy */
   // lessons
   '4167517c388a45f191931cf783270ec2',
+  'c04f2ff4ae5145c5abcd4159f1211941',
   // keywords
   '3af16e7ae55e4a89bbafea8e2c2dcd27',
   // modules
@@ -20,6 +22,7 @@ module.exports = [
   /* humanDAO Academy Tagalog */
   // lessons
   'aeefb8eba55a4abd8f4a606727aa7e48',
+  'c20d03ede5da47cb87fa798340eda025',
   // modules
   '747aef030e604584bb8d1e29eabaf6d6',
   // config
@@ -28,6 +31,7 @@ module.exports = [
   /* BanklessDAO Academy */
   // lessons
   '696cedf98b294da186191abb515605d7',
+  '35c8302b4f1c435eb74526dc07d84406',
   // keywords
   'bef1ffc1fbcf49b9b9774f9e4c885a71',
   // modules

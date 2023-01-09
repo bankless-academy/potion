@@ -217,5 +217,5 @@ module.exports = async (req, res) => {
   console.log('parent_id', parent_id)
   if (WHITELIST.includes(parent_id))
     return res.json(output)
-  else return res.json({ error: 'forbidden, add to WHITELIST first' })
+  else return res.json({ error: `forbidden, add ${parent_id} to WHITELIST first` })
 }
