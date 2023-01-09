@@ -15,6 +15,8 @@ const call = require("../notion/call")
 const normalizeId = require("../notion/normalizeId")
 const textArrayToHtml = require("../notion/textArrayToHtml.js")
 
+const WHITELIST = require("../helpers/whitelist")
+
 module.exports = async (req, res) => {
   const { id:queryId } = req.query
   const id = normalizeId(queryId)
@@ -35,7 +37,12 @@ module.exports = async (req, res) => {
     ]
   })
 
-  if(!overview.recordMap.block[id].value) {
+  const parent_id = overview.recordMap.block[id]?.value?.parent_id?.replace(/-/g, '')
+  console.log('parent_id', parent_id)
+  if (!parent_id || !WHITELIST.includes(parent_id))
+    return res.json({ error: 'forbidden, add to WHITELIST first' })
+
+  if(!overview.recordMap?.block[id].value) {
     return res.json({
       error: "could not read Notion doc with this ID - make sure public access is enabled"
     })

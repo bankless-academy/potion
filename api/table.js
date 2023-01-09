@@ -7,6 +7,8 @@ const normalizeId = require("../notion/normalizeId")
 // const getAssetUrl = require("../notion/getAssetUrl")
 const { Client } = require('@notionhq/client')
 
+const WHITELIST = require("../helpers/whitelist")
+
 const notion = new Client({
   auth: process.env.NOTION_SECRET,
 })
@@ -211,6 +213,9 @@ module.exports = async (req, res) => {
   //   })
   // })
 
-
-  return res.json(output)
+  const parent_id = output[0].parent?.database_id?.replace(/-/g, '')
+  console.log('parent_id', parent_id)
+  if (WHITELIST.includes(parent_id))
+    return res.json(output)
+  else return res.json({ error: 'forbidden, add to WHITELIST first' })
 }
