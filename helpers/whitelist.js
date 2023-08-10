@@ -28,7 +28,7 @@ module.exports = [
   // config
   '406b5cfc94074e8d88902a61a369acf2',
 
-  /* BanklessDAO Academy */
+  /* BanklessDAO Onboarding */
   // lessons
   '696cedf98b294da186191abb515605d7',
   '35c8302b4f1c435eb74526dc07d84406',
