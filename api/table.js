@@ -106,6 +106,11 @@ module.exports = async (req, res) => {
         // console.log(`${k}:${v.select?.name}`)
         row.fields[k] = v.select?.name
       }
+      if (v.type === 'multi_select') {
+        // console.log(`${k}:`)
+        // console.log(v)
+        row.fields[k] = v.multi_select.map((k) => k.name)
+      }
       if (v.type === 'files') {
         // console.log(`${k}:${v.select?.name}`)
         row.fields[k] = v.files[0]?.external?.url || v.files[0]?.file?.url
