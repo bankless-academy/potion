@@ -1,6 +1,9 @@
 /* parent ID WHITELIST */
 
 module.exports = [
+  // Bankless Community Wesbite CMS
+  '6b3a4ffc3bb146a7873e654f1209d979',
+
   /* Bankless Academy */
   // lessons
   '1dd77eb6ed4147f6bdfd6f23a30baa46',
