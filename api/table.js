@@ -122,6 +122,14 @@ module.exports = async (req, res) => {
         row.fields[k] = v?.relation.map((r) => r.id.replace(/-/g, ''))
         // console.log(row.fields[k])
       }
+      if (v.type === 'date') {
+        // console.log(`${k}:`)
+        // console.log(v)
+        row.fields[k] = v?.date?.start || null
+        // return array of pageIDs
+        // row.fields[k] = v?.relation.map((r) => r.id.replace(/-/g, ''))
+        // console.log(row.fields[k])
+      }
     }
     // DEV_MODE: comment for debug
     delete row.properties
