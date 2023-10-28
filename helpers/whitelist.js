@@ -3,6 +3,7 @@
 module.exports = [
   // Bankless Community Wesbite CMS
   '6b3a4ffc3bb146a7873e654f1209d979',
+  '8a6ecce223e4444dab16f2467c3ee0cc',
 
   /* Bankless Academy */
   // lessons
