@@ -9,13 +9,15 @@ const { Client } = require('@notionhq/client')
 
 const WHITELIST = require("../helpers/whitelist")
 
-const notion = new Client({
-  auth: process.env.NOTION_SECRET,
-})
-
 module.exports = async (req, res) => {
   const { id: queryId, sort } = req.query
   const id = normalizeId(queryId)
+
+  const BD_IDS = ['6b3a4ffc3bb146a7873e654f1209d979', '8a6ecce223e4444dab16f2467c3ee0cc']
+
+  const notion = new Client({
+    auth: BD_IDS.includes(queryId) ? process.env.NOTION_SECRET_BD : process.env.NOTION_SECRET_BA,
+  })
 
   if (!id) {
     return res.json({
