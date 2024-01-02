@@ -7,10 +7,10 @@ module.exports = [
 
   /* Bankless Academy */
   // lessons
-  '1dd77eb6ed4147f6bdfd6f23a30baa46',
-  '6287acfe1e284bfb83e9dbaee1747a50',
+  '129141602de240e484356bd85f7c75e0',
+  'f694d1e3e39b4f2e8d387a3347d61271',
   // keywords
-  '623e965e4f10456094d17aa94ec37105',
+  'd452559560a447169e10f2d3c6ee5288',
 
   /* humanDAO Academy */
   // lessons
