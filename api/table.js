@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
 
   let response = {}
   let response2 = {}
+  let response3 = {}
 
   try {
     response = await notion.databases.query({
@@ -48,7 +49,7 @@ module.exports = async (req, res) => {
     }
   }
 
-  // get the next 100
+  // get the next 100-200
   // TODO: make it recursive
   if (response?.has_more && response?.next_cursor) {
     try {
@@ -62,6 +63,23 @@ module.exports = async (req, res) => {
         ],
         start_cursor: response.next_cursor,
       })
+      // get the next 200-300
+      if (response2?.has_more && response2?.next_cursor) {
+        try {
+          response3 = await notion.databases.query({
+            database_id: id,
+            sorts: [
+              {
+                property: sort || 'Order',
+                direction: 'ascending',
+              },
+            ],
+            start_cursor: response2.next_cursor,
+          })
+        } catch (error) {
+          return res.json(error)
+        }
+      }
     } catch (error) {
       try {
         response2 = await notion.databases.query({
@@ -76,7 +94,7 @@ module.exports = async (req, res) => {
 
   if (response2?.results) {
     // console.log(response2)
-    response.results = [...response?.results, ...response2?.results]
+    response.results = [...response?.results, ...response2?.results, ...response3?.results]
   }
 
   response.results.map((row) => {
