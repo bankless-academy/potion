@@ -24,6 +24,7 @@ module.exports = [
   '9195171980044e108cb43902d8a53cf4',
   // announcement
   'f3d2535a2af14e72b7c0a543aa0d782b',
+  'd1088de6c02c457d9986e0d335472063',
 
   /* humanDAO Academy Tagalog */
   // lessons
