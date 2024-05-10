@@ -23,7 +23,7 @@ module.exports = [
   // config
   '9195171980044e108cb43902d8a53cf4',
   // announcement
-  'f3d2535a2af14e72b7c0a543aa0d782b',
+  '350a1bfa93214115acc0874511451f41',
   'd1088de6c02c457d9986e0d335472063',
 
   /* humanDAO Academy Tagalog */
