@@ -85,19 +85,17 @@ module.exports = async (req, res) => {
     if (chunk.cursor.stack.length === 0) hasMorePageChunks = false
   }
 
-  contentIds.forEach(id => {
+  for (const id of contentIds) {
     const block = recordMap[id]
     if (block) contents.push(block.value)
-  })
+  }
 
   const html = []
 
-  contents.forEach(block => {
+  for (const block of contents) {
     const type = block.type
-    // console.log('block', block)
 
     if (["header", "sub_header", "sub_sub_header", "text"].includes(type)) {
-      /* Headers (H1 - H3) and plain text */
       const el = {
         header: "h1",
         sub_header: "h2",
@@ -106,8 +104,7 @@ module.exports = async (req, res) => {
       }[type]
 
       if (!block.properties) {
-        // This is an empty text block.
-        return
+        continue
       }
       // console.log(block)
       const notionId = ["header"].includes(type) ? ` notion-id="${block.id.replace(/-/g, '')}"` : '';
@@ -177,7 +174,7 @@ module.exports = async (req, res) => {
     } else if (["equation"].includes(type)) {
       if (!block.properties) {
         // Equation block is empty
-        return
+        continue
       }
       const equation = block.properties?.title[0][0]
       const equationHtml = katex.renderToString(equation, { throwOnError: false })
@@ -189,11 +186,25 @@ module.exports = async (req, res) => {
       // video + lottie animations
       // console.log('video', block)
       html.push(`<iframe src="${block.format.display_source}"></iframe>`)
+    } else if (["toggle"].includes(type)) {
+      const blockId = block.content[0]
+      const pageData = await call("getRecordValues", {
+        requests: [
+          {
+            id: blockId,
+            table: "block"
+          }
+        ]
+      })
+      // console.log('pageData', pageData)
+      const content = pageData.recordMapWithRoles.block[blockId].value.properties.title
+      // console.log('content', content)
+      html.push(`<details><summary>${block.properties?.title[0]}</summary>${textArrayToHtml(content)}</details>`)
     } else {
       /* Catch blocks without handler method */
       // console.log(`Unhandled block type "${block.type}"`, block)
     }
-  })
+  }
 
   // Only add Katex stylesheet if there's Katex elements.
   if (html.join("").includes(`class="katex"`)) {

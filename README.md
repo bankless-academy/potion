@@ -73,7 +73,7 @@ Most, but not all, of the common Notion blocks are supported at the moment:
 - [x] Heading 3
 - [x] Bulleted List
 - [x] Numbered List
-- [ ] Toggle List
+* [x] Toggle List
 - [x] Quote
 - [x] Divider
 - [ ] Link to Page
