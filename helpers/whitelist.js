@@ -46,6 +46,6 @@ module.exports = [
   // config
   '04311c56200147ca88adc78337fa1d66',
 
-  /* Test */
-  // 'd161959c2f0a4ed096186c273c5fe47b',
+  /* N2W3 */
+  '37a9e401c55747d29af74e5d4d9f5c5b',
 ]
