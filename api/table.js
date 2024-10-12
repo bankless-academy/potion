@@ -98,17 +98,16 @@ module.exports = async (req, res) => {
   }
 
   response.results.map((row) => {
+    // console.log('row', row);
     row.fields = {}
     for (const [k, v] of Object.entries(row.properties)) {
-      // console.log(`${k}: ${v}`);
-      // console.log(v)
+      // console.log(`${k}: ${JSON.stringify(v)}`);
       if (v.type === 'title') {
-        // console.log(`${k}:${v.title[0]?.plain_text}`)
         row.fields[k] = v.title[0]?.plain_text || undefined
       }
       if (v.type === 'rich_text') {
-        // console.log(`${k}:${v.rich_text[0]?.plain_text}`)
-        row.fields[k] = v.rich_text[0]?.plain_text
+        // console.log(`${k}:${JSON.stringify(v)}`)
+        row.fields[k] = v.rich_text.map(rt => rt.href ? `<a href="${rt.href}">${rt.plain_text}</a>` : rt.plain_text).join('')
       }
       if (v.type === 'number') {
         // console.log(`${k}:${v.number}`)
