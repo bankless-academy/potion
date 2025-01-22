@@ -11,6 +11,11 @@ module.exports = [
   'f694d1e3e39b4f2e8d387a3347d61271',
   // keywords
   'd452559560a447169e10f2d3c6ee5288',
+  // announcement
+  '350a1bfa93214115acc0874511451f41',
+  'd1088de6c02c457d9986e0d335472063',
+  // explore
+  '8f2f600b38a44cbb98f7fd240686c27a',
 
   /* humanDAO Academy */
   // lessons
@@ -22,9 +27,6 @@ module.exports = [
   'd19bb84727ad474ea4a7e1c5a0d4b64e',
   // config
   '9195171980044e108cb43902d8a53cf4',
-  // announcement
-  '350a1bfa93214115acc0874511451f41',
-  'd1088de6c02c457d9986e0d335472063',
 
   /* humanDAO Academy Tagalog */
   // lessons
