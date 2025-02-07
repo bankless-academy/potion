@@ -10,7 +10,8 @@ const { Client } = require('@notionhq/client')
 const WHITELIST = require("../helpers/whitelist")
 
 module.exports = async (req, res) => {
-  const { id: queryId, sort } = req.query
+  // Ensure req and req.query are defined
+  const { id: queryId, sort } = (req && req.query) ? req.query : {}
   const id = normalizeId(queryId)
 
   const BD_IDS = ['6b3a4ffc3bb146a7873e654f1209d979', '8a6ecce223e4444dab16f2467c3ee0cc']
@@ -93,8 +94,16 @@ module.exports = async (req, res) => {
   }
 
   if (response2?.results) {
-    // console.log(response2)
-    response.results = [...response?.results, ...response2?.results, ...response3?.results]
+    // Ensure all arrays exist before spreading
+    const results1 = response?.results || []
+    const results2 = response2?.results || []
+    const results3 = response3?.results || []
+    response.results = [...results1, ...results2, ...results3]
+  }
+
+  // Ensure response.results exists before mapping
+  if (!response.results) {
+    response.results = []
   }
 
   response.results.map((row) => {
