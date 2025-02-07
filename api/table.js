@@ -27,81 +27,60 @@ module.exports = async (req, res) => {
   }
 
   let response = {}
-  let response2 = {}
-  let response3 = {}
+  let allResults = []
+  let pageCount = 0
+  const MAX_PAGES = 5
 
   try {
+    // Get first page of results
     response = await notion.databases.query({
       database_id: id,
-      sorts: [
+      sorts: sort ? [
         {
-          property: sort || 'Order',
+          property: sort,
           direction: 'ascending',
         },
-      ],
+      ] : undefined,
     })
+
+    allResults = [...(response?.results || [])]
+    pageCount++
+
+    // Keep fetching next pages while there are more results and under page limit
+    while (response?.has_more && response?.next_cursor && pageCount < MAX_PAGES) {
+      try {
+        response = await notion.databases.query({
+          database_id: id,
+          sorts: sort ? [
+            {
+              property: sort,
+              direction: 'ascending',
+            },
+          ] : undefined,
+          start_cursor: response.next_cursor,
+        })
+        allResults = [...allResults, ...(response?.results || [])]
+        pageCount++
+      } catch (error) {
+        console.error('Error fetching next page:', error)
+        break
+      }
+    }
   } catch (error) {
     try {
+      // Fallback without sorting
       response = await notion.databases.query({
         database_id: id,
       })
+      allResults = response?.results || []
     } catch (error) {
       return res.json(error)
     }
   }
 
-  // get the next 100-200
-  // TODO: make it recursive
-  if (response?.has_more && response?.next_cursor) {
-    try {
-      response2 = await notion.databases.query({
-        database_id: id,
-        sorts: [
-          {
-            property: sort || 'Order',
-            direction: 'ascending',
-          },
-        ],
-        start_cursor: response.next_cursor,
-      })
-      // get the next 200-300
-      if (response2?.has_more && response2?.next_cursor) {
-        try {
-          response3 = await notion.databases.query({
-            database_id: id,
-            sorts: [
-              {
-                property: sort || 'Order',
-                direction: 'ascending',
-              },
-            ],
-            start_cursor: response2.next_cursor,
-          })
-        } catch (error) {
-          return res.json(error)
-        }
-      }
-    } catch (error) {
-      try {
-        response2 = await notion.databases.query({
-          database_id: id,
-          start_cursor: response.next_cursor,
-        })
-      } catch (error) {
-        return res.json(error)
-      }
-    }
-  }
+  // Ensure we have an array to work with
+  response.results = allResults
 
-  if (response2?.results) {
-    // Ensure all arrays exist before spreading
-    const results1 = response?.results || []
-    const results2 = response2?.results || []
-    const results3 = response3?.results || []
-    response.results = [...results1, ...results2, ...results3]
-  }
-
-  // Ensure response.results exists before mapping
   if (!response.results) {
     response.results = []
   }
